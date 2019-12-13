@@ -1,0 +1,18 @@
+{
+    "cookbook_a": {
+      "uri": "https://localhost/organizations/org/policies/cookbook_a",
+      "revisions": {
+        "8701f8de2ed3c7bf01a9f2bec8b2f722be0806c6253b154cde63dcb3e436694a": {
+  
+        }
+      }
+    },
+    "cookbook_b": {
+      "uri": "https://localhost/organizations/org/policies/cookbook_b",
+      "revisions": {
+        "05fba2a9ec7c1d638899f1e3a0d91d364dd4725414b1f78f756f5f13c67fe474": {
+  
+        }
+      }
+    }
+}

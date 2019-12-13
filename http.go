@@ -48,6 +48,7 @@ type Client struct {
 	Groups        *GroupService
 	Nodes         *NodeService
 	Organizations *OrganizationService
+	Policies      *PolicyService
 	Principals    *PrincipalService
 	Roles         *RoleService
 	Sandboxes     *SandboxService
@@ -161,6 +162,7 @@ func NewClient(cfg *Config) (*Client, error) {
 	c.Groups = &GroupService{client: c}
 	c.Nodes = &NodeService{client: c}
 	c.Organizations = &OrganizationService{client: c}
+	c.Policies = &PolicyService{client: c}
 	c.Principals = &PrincipalService{client: c}
 	c.Roles = &RoleService{client: c}
 	c.Sandboxes = &SandboxService{client: c}
