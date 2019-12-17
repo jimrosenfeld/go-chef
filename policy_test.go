@@ -26,15 +26,20 @@ func TestListPolicies(t *testing.T) {
 
 	policies, err := client.Policies.List()
 	assert.Nil(t, err)
-	if assert.NotNil(t, policies) {
-		assert.NotNil(t, policies["cookbook_a"])
-		assert.Equal(t, "https://localhost/organizations/org/policies/cookbook_a", policies["cookbook_a"].Uri)
-		assert.NotNil(t, policies["cookbook_a"].Revisions)
-		assert.Equal(t, "8701f8de2ed3c7bf01a9f2bec8b2f722be0806c6253b154cde63dcb3e436694a", policies["cookbook_a"].Revisions[0])
+	assert.NotNil(t, policies)
 
-		assert.NotNil(t, policies["cookbook_b"])
-		assert.Equal(t, "https://127.0.0.1/organizations/org/policies/cookbook_b", policies["cookbook_b"].Uri)
-		assert.NotNil(t, policies["cookbook_b"].Revisions)
-		assert.Equal(t, "05fba2a9ec7c1d638899f1e3a0d91d364dd4725414b1f78f756f5f13c67fe474", policies["cookbook_b"].Revisions[0])
-	}
+	cookbookA := policies["cookbook_a"]
+	assert.NotNil(t, cookbookA)
+	assert.Equal(t, "cookbook_a", cookbookA.Name)
+	assert.Equal(t, "https://localhost/organizations/org/policies/cookbook_a", cookbookA.Uri)
+	assert.NotNil(t, cookbookA.Revisions)
+	assert.Equal(t, "8701f8de2ed3c7bf01a9f2bec8b2f722be0806c6253b154cde63dcb3e436694a", cookbookA.Revisions[0])
+
+	cookbookB := policies["cookbook_b"]
+	assert.NotNil(t, cookbookB)
+	assert.Equal(t, "cookbook_b", cookbookB.Name)
+	assert.Equal(t, "https://localhost/organizations/org/policies/cookbook_b", cookbookB.Uri)
+	assert.NotNil(t, cookbookB.Revisions)
+	assert.Equal(t, "05fba2a9ec7c1d638899f1e3a0d91d364dd4725414b1f78f756f5f13c67fe474", cookbookB.Revisions[0])
+
 }

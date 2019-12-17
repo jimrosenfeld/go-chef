@@ -13,9 +13,10 @@ type apiPolicy struct {
 	Revisions apiPolicyRevisions `json:"revisions"`
 }
 
-type listApiPoliciesResult map[string]apiPolicy
+type apiListPoliciesResult map[string]apiPolicy
 
 type Policy struct {
+	Name      string
 	Uri       string
 	Revisions []string
 }
@@ -23,22 +24,26 @@ type Policy struct {
 type ListPoliciesResult map[string]Policy
 
 func (p *PolicyService) List() (result ListPoliciesResult, err error) {
-	var listApiPoliciesResult listApiPoliciesResult
-	err = p.client.magicRequestDecoder("GET", "policies", nil, &listApiPoliciesResult)
+	var alpr apiListPoliciesResult
+	err = p.client.magicRequestDecoder("GET", "policies", nil, &alpr)
+	if err != nil {
+		return
+	}
 
-	result = make(ListPoliciesResult, len(listApiPoliciesResult))
-	for p := range listApiPoliciesResult {
-		revisions := make([]string, len(listApiPoliciesResult[p].Revisions))
+	result = make(ListPoliciesResult, len(alpr))
+	for apiPolicy := range alpr {
+		revisions := make([]string, len(alpr[apiPolicy].Revisions))
 		i := 0
-		for r := range listApiPoliciesResult[p].Revisions {
-			revisions[i] = r
+		for revision := range alpr[apiPolicy].Revisions {
+			revisions[i] = revision
 			i++
 		}
 		policy := Policy{
-			Uri:       listApiPoliciesResult[p].Uri,
+			Name:      apiPolicy,
+			Uri:       alpr[apiPolicy].Uri,
 			Revisions: revisions,
 		}
-		result[p] = policy
+		result[apiPolicy] = policy
 	}
 	return
 }

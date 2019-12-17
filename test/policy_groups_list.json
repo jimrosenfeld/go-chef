@@ -1,0 +1,24 @@
+{
+    "dev": {
+        "uri": "https://localhost/organizations/org/policy_groups/dev",
+        "policies": {
+            "cookbook_a": {
+                "revision_id": "50d924a17c82ec6aa7826c4f3035c75b7a4b7c548a6dab7030df142b22d0f7b2"
+            },
+            "cookbook_b": {
+                "revision_id": "28c1bdcc56355a0a3c94182882a404f9e8b0fb3e1fd8d32a65bfb870b089e476"
+            }
+        }
+    },
+    "prod": {
+        "uri": "https://localhost/organizations/org/policy_groups/prod",
+        "policies": {
+            "cookbook_a": {
+                "revision_id": "69a8a638cf6dd7ba6be3c5fd53beef7bfa6e1c3de2f9bcf036c32ea49ab1bd86"
+            },
+            "cookbook_b": {
+                "revision_id": "2d54a5b1bb89e29aeb3689036a8e823fae907d5523c6725bfc0f8c32b888a348"
+            }
+        }
+    }
+}
