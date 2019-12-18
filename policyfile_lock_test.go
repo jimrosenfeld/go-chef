@@ -24,10 +24,24 @@ func TestGetPolicyfileLock(t *testing.T) {
 		fmt.Fprintf(w, string(testResponse))
 	})
 
-	// basic
 	p, err := client.Policies.GetPolicyfileLock("jenkins", "test-group")
 	assert.Nil(t, err)
+	checkPolicyFile(t, p)
+}
+
+func TestGetPolicyfileLockFromFile(t *testing.T) {
+	setup()
+	defer teardown()
+
+	p, err := client.Policies.GetPolicyfileLockFromFile(policyfileLockResponseFile)
+	assert.Nil(t, err)
+	checkPolicyFile(t, p)
+}
+
+func checkPolicyFile(t *testing.T, p PolicyfileLock) {
 	assert.NotNil(t, p)
+
+	// basic
 	assert.Equal(t, "304566f86a620aae85797a3c491a51fb8c6ecf996407e77b8063aa3ee59672c5", p.RevisionID)
 	assert.Equal(t, "jenkins", p.Name)
 

@@ -2,6 +2,10 @@ package chef
 
 import "fmt"
 
+import "io/ioutil"
+
+import "encoding/json"
+
 type PolicyfileLock struct {
 	RevisionID           string                  `json:"revision_id,omitempty"`
 	Name                 string                  `json:"name,omitempty"`
@@ -41,5 +45,19 @@ type SolutionDependencies struct {
 func (p *PolicyService) GetPolicyfileLock(policy string, policyGroup string) (result PolicyfileLock, err error) {
 	requestPath := fmt.Sprintf("policy_groups/%v/policies/%v", policyGroup, policy)
 	err = p.client.magicRequestDecoder("GET", requestPath, nil, &result)
+	return
+}
+
+func (p *PolicyService) GetPolicyfileLockFromFile(path string) (result PolicyfileLock, err error) {
+	lockFile, err := ioutil.ReadFile(path)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(lockFile, &result)
+	if err != nil {
+		return
+	}
+
 	return
 }
