@@ -10,6 +10,7 @@ import (
 )
 
 const policyGroupsListResponseFile = "test/policy_groups_list.json"
+const policyGroupGetResponseFile = "test/policy_group.json"
 
 func TestListPolicyGroups(t *testing.T) {
 	setup()
@@ -45,4 +46,26 @@ func TestListPolicyGroups(t *testing.T) {
 	assert.Equal(t, "69a8a638cf6dd7ba6be3c5fd53beef7bfa6e1c3de2f9bcf036c32ea49ab1bd86", prod.CurrentPolicies["cookbook_a"].RevisionID)
 	assert.Equal(t, "cookbook_b", prod.CurrentPolicies["cookbook_b"].Name)
 	assert.Equal(t, "2d54a5b1bb89e29aeb3689036a8e823fae907d5523c6725bfc0f8c32b888a348", prod.CurrentPolicies["cookbook_b"].RevisionID)
+}
+
+func TestGetPolicyGroup(t *testing.T) {
+	setup()
+	defer teardown()
+
+	testResponse, err := ioutil.ReadFile(policyGroupGetResponseFile)
+	if err != nil {
+		t.Error(err)
+	}
+
+	mux.HandleFunc("/policy_groups/dev", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, string(testResponse))
+	})
+
+	pg, err := client.Policies.GetGroup("dev")
+	assert.NotNil(t, pg)
+	assert.Equal(t, "dev", pg.Name)
+	assert.Equal(t, "cookbook_a", pg.CurrentPolicies["cookbook_a"].Name)
+	assert.Equal(t, "50d924a17c82ec6aa7826c4f3035c75b7a4b7c548a6dab7030df142b22d0f7b2", pg.CurrentPolicies["cookbook_a"].RevisionID)
+	assert.Equal(t, "cookbook_b", pg.CurrentPolicies["cookbook_b"].Name)
+	assert.Equal(t, "28c1bdcc56355a0a3c94182882a404f9e8b0fb3e1fd8d32a65bfb870b089e476", pg.CurrentPolicies["cookbook_b"].RevisionID)
 }

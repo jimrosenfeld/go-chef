@@ -1,12 +1,14 @@
 package chef
 
+import "fmt"
+
 type apiPolicyGroupPolicy struct {
 	RevisionID string `json:"revision_id,omitempty"`
 }
 
 type apiPolicyGroup struct {
-	Uri      string `json:"uri,omitempty"`
-	Policies map[string]apiPolicyGroupPolicy
+	Uri      string                          `json:"uri,omitempty"`
+	Policies map[string]apiPolicyGroupPolicy `json:"policies,omitempty"`
 }
 
 type apiListPolicyGroupsResult map[string]apiPolicyGroup
@@ -48,5 +50,26 @@ func (p *PolicyService) ListGroups() (result ListPolicyGroupsResult, err error) 
 		}
 		result[apiPolicyGroup] = policyGroup
 	}
+	return
+}
+
+func (p *PolicyService) GetGroup(name string) (group PolicyGroup, err error) {
+	path := fmt.Sprintf("policy_groups/%v", name)
+	var apg apiPolicyGroup
+	err = p.client.magicRequestDecoder("GET", path, nil, &apg)
+	if err != nil {
+		return
+	}
+
+	group = PolicyGroup{Name: name}
+	group.CurrentPolicies = make(map[string]CurrentPolicy, len(apg.Policies))
+	for apiPolicyGroupPolicy := range apg.Policies {
+		currentPolicy := CurrentPolicy{
+			Name:       apiPolicyGroupPolicy,
+			RevisionID: apg.Policies[apiPolicyGroupPolicy].RevisionID,
+		}
+		group.CurrentPolicies[apiPolicyGroupPolicy] = currentPolicy
+	}
+
 	return
 }

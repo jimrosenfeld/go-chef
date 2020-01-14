@@ -1,0 +1,10 @@
+{
+    "policies": {
+        "cookbook_a": {
+            "revision_id": "50d924a17c82ec6aa7826c4f3035c75b7a4b7c548a6dab7030df142b22d0f7b2"
+        },
+        "cookbook_b": {
+            "revision_id": "28c1bdcc56355a0a3c94182882a404f9e8b0fb3e1fd8d32a65bfb870b089e476"
+        }
+    }
+}
