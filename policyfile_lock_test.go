@@ -49,6 +49,14 @@ func checkPolicyFile(t *testing.T, p PolicyfileLock) {
 	assert.Equal(t, "recipe[apt::default]", p.RunList[0])
 	assert.Equal(t, 4, len(p.RunList))
 
+	// an included policy lock
+	ipl := p.IncludedPolicyLocks
+	assert.NotNil(t, ipl)
+	assert.Equal(t, 1, len(ipl))
+	assert.Equal(t, "06da9a52b6f4ff79232a7dc77ade9766470ea51bf0b08d38bae701dbb0899dd1", ipl[0].RevisionID)
+	assert.Equal(t, "included_policy", ipl[0].Name)
+	assert.Equal(t, "included_policy.lock.json", ipl[0].SourceOptions["path"])
+
 	// an internal cookbook
 	assert.NotNil(t, p.CookbookLocks["policyfile_demo"])
 	cl := p.CookbookLocks["policyfile_demo"]

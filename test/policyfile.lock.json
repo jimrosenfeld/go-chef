@@ -7,6 +7,15 @@
       "recipe[jenkins::master]",
       "recipe[policyfile_demo::default]"
     ],
+    "included_policy_locks": [
+      {
+        "name": "included_policy",
+        "revision_id": "06da9a52b6f4ff79232a7dc77ade9766470ea51bf0b08d38bae701dbb0899dd1",
+        "source_options": {
+          "path": "included_policy.lock.json"
+        }
+      }
+    ],
     "cookbook_locks": {
       "policyfile_demo": {
         "version": "0.1.0",

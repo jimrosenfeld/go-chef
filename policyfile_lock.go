@@ -1,16 +1,16 @@
 package chef
 
-import "fmt"
-
-import "io/ioutil"
-
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+)
 
 type PolicyfileLock struct {
 	RevisionID           string                  `json:"revision_id,omitempty"`
 	Name                 string                  `json:"name,omitempty"`
 	RunList              []string                `json:"run_list,omitempty"`
-	IncludedPolicyLocks  []string                `json:"included_policy_locks,omitempty"`
+	IncludedPolicyLocks  []IncludedPolicyLock    `json:"included_policy_locks,omitempty"`
 	CookbookLocks        map[string]CookbookLock `json:"cookbook_locks,omitempty"`
 	DefaultAttributes    map[string]string       `json:"default_attributes,omitempty"`
 	OverrideAttributes   map[string]string       `json:"override_attributes,omitempty"`
@@ -35,6 +35,12 @@ type SCMInfo struct {
 	WorkingTreeClean           bool     `json:"working_tree_clean,omitempty"`
 	Published                  bool     `json:"published,omitempty"`
 	SynchronizedRemoteBranches []string `json:"synchronized_remote_branches,omitempty"`
+}
+
+type IncludedPolicyLock struct {
+	Name          string            `json:"name,omitempty"`
+	RevisionID    string            `json:"revision_id,omitempty"`
+	SourceOptions map[string]string `json:"source_options,omitempty"`
 }
 
 type SolutionDependencies struct {
